@@ -24,8 +24,18 @@ class Run:
                   "passed": self.passed,
                   "description": self.description}
         return data
-    
-
+    def extractFromSummary(self) -> None:
+        dic: dict
+        with open("summary.json", "r") as f:
+            dic = json.load(f)
+            self.q_limit = dic.get("q_limit", 0)
+            self.g_limit = dic.get("g_limit", 0)
+            self.q_max = dic.get("q_max", 0)
+            self.g_max = dic.get("g_max", 0)
+            self.passed = dic.get("passed", False)
+            self.description = dic.get("description", "")
+    def __str__(self) -> str:
+        return self.q_limit, self.g_limit, self.q_max, self.g_max, self.passed, self.description
 
 
 def dataToJson(data: dict) -> None:
@@ -38,6 +48,8 @@ def main():
     run = Run(1,1,1,1,True,"This is second Test")
     data = run.summarizeRun()
     dataToJson(data)
+    run2 = Run(0,0,0,0,False, "")
+    run2.extractFromSummary()
 
 
 if __name__ == "__main__":
