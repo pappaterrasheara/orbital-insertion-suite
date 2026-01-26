@@ -35,7 +35,7 @@ class Run:
             self.passed = dic.get("passed", False)
             self.description = dic.get("description", "")
     def __str__(self) -> str:
-        return self.q_limit, self.g_limit, self.q_max, self.g_max, self.passed, self.description
+        return f'{self.q_limit}, {self.g_limit}, {self.q_max}, {self.g_max}, {self.passed}, {self.description}'
 
 
 def dataToJson(data: dict) -> None:
@@ -50,7 +50,7 @@ def main():
     dataToJson(data)
     run2 = Run(0,0,0,0,False, "")
     run2.extractFromSummary()
-
+    print(run2)
 
 if __name__ == "__main__":
     main()
