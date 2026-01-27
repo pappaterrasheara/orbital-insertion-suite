@@ -15,15 +15,19 @@ class Run:
     g_max: float
     passed: bool
     description: str
-    
-    def summarizeRun(self) -> dict:
-        data = {"q_limit": self.q_limit,
+    def dataToJson(self, data: dict) -> None:
+        with open("summary.json", "w") as f: 
+            json.dump(data, f, indent=4)
+
+    def summarizeRun(self) -> None:
+        data : dict = {"q_limit": self.q_limit,
                   "g_limit": self.g_limit,
                   "q_max": self.q_max,
                   "g_max": self.g_max,
                   "passed": self.passed,
                   "description": self.description}
-        return data
+        self.dataToJson(data)
+
     def extractFromSummary(self) -> None:
         dic: dict
         with open("summary.json", "r") as f:
@@ -36,18 +40,15 @@ class Run:
             self.description = dic.get("description", "")
     def __str__(self) -> str:
         return f'{self.q_limit}, {self.g_limit}, {self.q_max}, {self.g_max}, {self.passed}, {self.description}'
-
-
-def dataToJson(data: dict) -> None:
     
-    with open("summary.json", "w") as f: 
-        json.dump(data, f, indent=4)
+
+
+
 
 def main():
     print("Init")
     run = Run(1,1,1,1,True,"This is second Test")
-    data = run.summarizeRun()
-    dataToJson(data)
+    run.summarizeRun()
     run2 = Run(0,0,0,0,False, "")
     run2.extractFromSummary()
     print(run2)
